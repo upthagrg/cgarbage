@@ -1,3 +1,13 @@
+/***************************************************************************
+ * Author: Glenn Upthagrove
+ * Date: 06/08/2017
+ * Title: garbage.h
+ * Description: A simple API that allows the user to push all memory 
+ * management down to this subsystem. To use, replace malloc(int) with 
+ * gmalloc(int), and call gclear() before any point at which the program 
+ * can terminate, such as a return in main or an exit(int) call. If the 
+ * user desires to manually free(void*), they should use gfree(void*). 
+***************************************************************************/
 #ifndef GARBAGE
 #define GARBAGE
 #include <stdio.h>

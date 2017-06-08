@@ -12,12 +12,14 @@ struct garbage_handler{
 struct garbage_handler gh;
 void _init_gh(){
 	int i=0;
+//	printf("in _init_gh\n");
 	gh.handle = malloc(sizeof(void*)*8);
 	for(i; i<8; i++){
 		gh.handle[i] = NULL;
 	}
 	gh.size = 0;
 	gh.cap = 8;
+	inited = 1;
 }
 void _grow_gh(){
 	void** temp;
@@ -33,6 +35,7 @@ void _grow_gh(){
 }
 void* gmalloc(int in){
 	void* temp; 
+//	printf("in gmalloc\n");
 	if(inited == 0){
 		_init_gh();
 	}
@@ -46,6 +49,7 @@ void* gmalloc(int in){
 }
 void gfree(void* in){
 	int i=gh.size;
+//	printf("in gfree\n");
 	for(i; i>=0; i--){
 		if(gh.handle[i] == in){
 			break;
@@ -61,12 +65,15 @@ void gfree(void* in){
 }
 void gclear(){
 	int i = gh.size;
-	for(i; i>=0; i--){
-		gfree(gh.handle[i];
+//	printf("in gclear\n");
+	if(gh.size > 0){
+		for(i; i>=0; i--){
+			gfree(gh.handle[i]);
+		}
+		free(gh.handle);
+		gh.size = 0;
+		gh.cap = 0;
+		inited = 0;
 	}
-	free(gh.handle);
-	gh.size = 0;
-	gh.cap = 0;
-	inited = 0;
 }
 #endif

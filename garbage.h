@@ -10,6 +10,10 @@
 ***************************************************************************/
 #ifndef GARBAGE
 #define GARBAGE
+//#define malloc gmalloc
+//this is an idea to improve the API at a later date by replaceing all mallocs with gmalloc
+//and possible main return with a greturn? that may not be possible but I shall work on this
+//at some later date
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -41,7 +45,17 @@ void _grow_gh(){
 	free(gh.handle);
 	gh.handle = temp;
 	gh.cap = gh.cap*2;
-	inited = 1;
+}
+void _shrink_gh(){
+	void** temp;
+	int i=0;
+	temp = malloc(sizeof(void*)*(gh.cap)/2);
+	for(i; i<gh.size; i++){
+		temp[i] = gh.handle[i];
+	}
+	free(gh.handle);
+	gh.handle = temp;
+	gh.cap = gh.cap/2;
 }
 void* gmalloc(int in){
 	void* temp; 
@@ -72,6 +86,9 @@ void gfree(void* in){
 	}
 	gh.handle[gh.size] = NULL;
 	gh.size--;
+	if(gh.size == (gh.cap/4)){
+		_shrink_gh();
+	}
 }
 void gclear(){
 	int i = gh.size;

@@ -10,20 +10,25 @@
 ***************************************************************************/
 #ifndef GARBAGE
 #define GARBAGE
+
 //#define malloc gmalloc
 //this is an idea to improve the API at a later date by replaceing all mallocs with gmalloc
 //and possible main return with a greturn? that may not be possible but I shall work on this
 //at some later date
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-int inited = 0;
+
 struct garbage_handler{
 	void** handle;
 	int size;
 	int cap;
 };
+
 struct garbage_handler gh;
+int inited = 0;
+
 void _init_gh(){
 	int i=0;
 //	printf("in _init_gh\n");
@@ -98,6 +103,8 @@ void gfree(void* in){
 }
 void gclear(){
 //	printf("in gclear\n");
+//	printf("gh: %d\n", &gh);
+//	printf("inited: %d\n", &inited);
 	if(gh.size > 0){
 		while(gh.size > 0){
 			gfree(gh.handle[gh.size-1]);

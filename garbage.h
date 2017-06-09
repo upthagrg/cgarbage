@@ -46,17 +46,19 @@ void _grow_gh(){
 	gh.handle = temp;
 	gh.cap = gh.cap*2;
 }
+
 void _shrink_gh(){
 	void** temp;
 	int i=0;
-	temp = malloc(sizeof(void*)*(gh.cap)/2);
+	temp = malloc(sizeof(void*)*((gh.cap)/2));
 	for(i; i<gh.size; i++){
 		temp[i] = gh.handle[i];
 	}
 	free(gh.handle);
 	gh.handle = temp;
-	gh.cap = gh.cap/2;
+	gh.cap = (gh.cap/2);
 }
+
 void* gmalloc(int in){
 	void* temp; 
 //	printf("in gmalloc\n");
@@ -74,28 +76,31 @@ void* gmalloc(int in){
 void gfree(void* in){
 	int i=gh.size;
 //	printf("in gfree\n");
-	for(i; i>=0; i--){
-		if(gh.handle[i] == in){
-			break;
+	if(gh.size > 0){
+		for(i; i>=0; i--){
+			if(gh.handle[i] == in){
+					break;
+			}
+			continue;
 		}
-		continue;
-	}
-	free(gh.handle[i]);
-	if(i < gh.size){
-		gh.handle[i] = gh.handle[gh.size];
-	}
-	gh.handle[gh.size] = NULL;
-	gh.size--;
-	if(gh.size == (gh.cap/4)){
-		_shrink_gh();
+		free(gh.handle[i]);
+		if(i < gh.size){
+			gh.handle[i] = gh.handle[gh.size];
+		}
+		gh.handle[gh.size] = NULL;
+		gh.size--;
+		printf("size: %d cap: %d\n", gh.size, gh.cap);
+		if((gh.size == (gh.cap/4)) && (gh.cap > 8)){
+			printf("calling _shrink_gh()\n");
+			_shrink_gh();
+		}
 	}
 }
 void gclear(){
-	int i = gh.size;
 //	printf("in gclear\n");
 	if(gh.size > 0){
-		for(i; i>=0; i--){
-			gfree(gh.handle[i]);
+		while(gh.size > 0){
+			gfree(gh.handle[gh.size-1]);
 		}
 		free(gh.handle);
 		gh.size = 0;
@@ -103,4 +108,5 @@ void gclear(){
 		inited = 0;
 	}
 }
+//#define malloc gmalloc
 #endif

@@ -19,8 +19,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "./listhead.h"
 
 struct garbage_handler{
+	struct list_head* head;
 	void** handle;
 	int size;
 	int cap;
@@ -94,9 +96,9 @@ void gfree(void* in){
 		}
 		gh.handle[gh.size] = NULL;
 		gh.size--;
-		printf("size: %d cap: %d\n", gh.size, gh.cap);
+	//	printf("size: %d cap: %d\n", gh.size, gh.cap);
 		if((gh.size == (gh.cap/4)) && (gh.cap > 8)){
-			printf("calling _shrink_gh()\n");
+	//		printf("calling _shrink_gh()\n");
 			_shrink_gh();
 		}
 	}

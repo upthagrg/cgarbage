@@ -1,14 +1,11 @@
-default: noob object
+default: test
 
-all: object test0
+all: object test
 
 object:
 	gcc ./garbage.h -c
-noob:
-	rm -f garbage.h.gch
-test0: noob
+test: 
 	gcc garbage_test.c -o test0
-test: test0
 	valgrind ./test0
 clean:
 	rm -f ./test0 

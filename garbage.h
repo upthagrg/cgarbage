@@ -22,12 +22,13 @@
 #include "./listhead.h"
 
 struct garbage_handler{
-	struct list_head* head;
+	struct list_head* head; // intend to convert to a linked list
 	void** handle;
 	int size;
 	int cap;
 };
 
+//intend to add in static variables 
 struct garbage_handler gh;
 int inited = 0;
 
@@ -80,6 +81,8 @@ void* gmalloc(int in){
 	}
 	return temp;
 }
+//I intend to add a binary search tree here to increase the performance 
+//of the search. 
 void gfree(void* in){
 	int i=gh.size;
 //	printf("in gfree\n");

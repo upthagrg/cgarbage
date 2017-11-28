@@ -1,3 +1,11 @@
+/*********************************************************
+ * Tile: listhead.h
+ * Author Glenn Upthgrove
+ * Date: 11/27/17
+ * Description: A simple linked list data strycture. Based
+ * off of the Linux data structure. Mostly for personal 
+ * practice
+*********************************************************/
 #include <assert.h>
 struct list_head{
 	struct list_head* next;

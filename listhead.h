@@ -2,7 +2,7 @@
  * Tile: listhead.h
  * Author Glenn Upthgrove
  * Date: 11/27/17
- * Description: A simple linked list data strycture. Based
+ * Description: A simple linked list data structure. Based
  * off of the Linux data structure. Mostly for personal 
  * practice
 *********************************************************/

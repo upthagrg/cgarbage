@@ -1,6 +1,6 @@
 /***************************************************************************
  * Author: Glenn Upthagrove
- * Date: 06/08/2017
+ * Date: 12/07/2017
  * Title: garbage.h
  * Description: A simple API that allows the user to push all memory 
  * management down to this subsystem. To use, replace malloc(int) with 
@@ -19,10 +19,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "./listhead.h"
+//#include "./listhead.h"
+//may be used at a later date
 
 struct garbage_handler{
-	struct list_head* head; // intend to convert to a linked list
+	//struct list_head* head; // intend to convert to a linked list
 	void** handle;
 	int size;
 	int cap;
@@ -120,5 +121,4 @@ void gclear(){
 		inited = 0;
 	}
 }
-//#define malloc gmalloc
 #endif

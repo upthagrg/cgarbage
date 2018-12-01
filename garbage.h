@@ -33,13 +33,16 @@ struct garbage_handler{
 struct garbage_handler gh;
 int inited = 0;
 int initial = 8;
+int debug = 0;
 
 void _init_gh(){
 	int i=0;
+	if(debug){
+		printf("in _init_gh\n");
+	}
 	if(inited != 0){
 		return;
 	}
-//	printf("in _init_gh\n");
 	gh.handle = malloc(sizeof(void*)*initial);
 	for(i; i<initial; i++){
 		gh.handle[i] = NULL;
@@ -51,6 +54,9 @@ void _init_gh(){
 void _grow_gh(){
 	void** temp;
 	int i=0;
+	if(debug){
+		printf("in _grow_gh\n");
+	}
 	temp = malloc(sizeof(void*)*gh.cap*2);
 	for(i; i<gh.size; i++){
 		temp[i] = gh.handle[i];
@@ -63,6 +69,9 @@ void _grow_gh(){
 void _shrink_gh(){
 	void** temp;
 	int i=0;
+	if(debug){
+		printf("in _shrink_gh\n");
+	}
 	temp = malloc(sizeof(void*)*((gh.cap)/2));
 	for(i; i<gh.size; i++){
 		temp[i] = gh.handle[i];
@@ -71,7 +80,13 @@ void _shrink_gh(){
 	gh.handle = temp;
 	gh.cap = (gh.cap/2);
 }
+void toggle_debug(){
+	debug = !debug;
+}
 void set_initial(int in){
+	if(debug){
+		printf("in set_initial\n");
+	}
 	if(in < 1){
 		printf("Error: initial must be greater than 0\n");
 		exit(1);
@@ -84,7 +99,9 @@ void set_initial(int in){
 }
 void* gmalloc(int in){
 	void* temp; 
-//	printf("in gmalloc\n");
+	if(debug){
+		printf("in gmalloc\n");
+	}
 	if(inited == 0){
 		_init_gh();
 	}
@@ -100,7 +117,9 @@ void* gmalloc(int in){
 //of the search. 
 void gfree(void* in){
 	int i=gh.size;
-//	printf("in gfree\n");
+	if(debug){
+		printf("in gfree\n");
+	}
 	if(gh.size > 0){
 		for(i; i>=0; i--){
 			if(gh.handle[i] == in){
@@ -114,17 +133,23 @@ void gfree(void* in){
 		}
 		gh.handle[gh.size] = NULL;
 		gh.size--;
-	//	printf("size: %d cap: %d\n", gh.size, gh.cap);
+		if(debug){
+			printf("size: %d cap: %d\n", gh.size, gh.cap);
+		}
 		if((gh.size == (gh.cap/4)) && (gh.cap > 8)){
-	//		printf("calling _shrink_gh()\n");
+			if(debug){
+				printf("calling _shrink_gh()\n");
+			}
 			_shrink_gh();
 		}
 	}
 }
 void gclear(){
-//	printf("in gclear\n");
-//	printf("gh: %d\n", &gh);
-//	printf("inited: %d\n", &inited);
+	if(debug){
+		printf("in gclear\n");
+		printf("gh: %d\n", &gh);
+		printf("inited: %d\n", inited);
+	}
 	if(gh.size > 0){
 		while(gh.size > 0){
 			gfree(gh.handle[gh.size-1]);
@@ -133,6 +158,11 @@ void gclear(){
 		gh.size = 0;
 		gh.cap = 0;
 		inited = 0;
+	}
+	if(debug){
+		printf("size: %d\n", gh.size);
+		printf("cap: %d\n", gh.cap);
+		printf("inited: %d\n", inited);
 	}
 }
 #endif

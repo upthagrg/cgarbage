@@ -18,7 +18,6 @@ void _general_test_1(int in){
 	for(i; i<in; i++){
 		printf("temp[%d}[0]: %d\n", i, temp[i][0]);
 	}
-
 	gclear();
 }
 

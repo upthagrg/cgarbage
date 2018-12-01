@@ -32,17 +32,20 @@ struct garbage_handler{
 //intend to add in static variables 
 struct garbage_handler gh;
 int inited = 0;
-
+int initial = 8;
 
 void _init_gh(){
 	int i=0;
+	if(inited != 0){
+		return;
+	}
 //	printf("in _init_gh\n");
-	gh.handle = malloc(sizeof(void*)*8);
-	for(i; i<8; i++){
+	gh.handle = malloc(sizeof(void*)*initial);
+	for(i; i<initial; i++){
 		gh.handle[i] = NULL;
 	}
 	gh.size = 0;
-	gh.cap = 8;
+	gh.cap = initial;
 	inited = 1;
 }
 void _grow_gh(){
@@ -68,7 +71,17 @@ void _shrink_gh(){
 	gh.handle = temp;
 	gh.cap = (gh.cap/2);
 }
-
+void set_initial(int in){
+	if(in < 1){
+		printf("Error: initial must be greater than 0\n");
+		exit(1);
+	}
+	if(inited){
+		printf("error: cannot set initial after initializing system\n");
+		exit(2);
+	}
+	initial = in;
+}
 void* gmalloc(int in){
 	void* temp; 
 //	printf("in gmalloc\n");

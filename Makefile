@@ -1,12 +1,11 @@
+CC = gcc
 default: test
 
-all: test test0
+all: test
 
-test: 
-	gcc garbage_test.c -o test
-	./test
-test0: 
-	gcc garbage_test.c -o test0
-	valgrind ./test0
+test: garbage_test.c garbage.h
+	$(CC) garbage_test.c -o test
+run_test: test
+	valgrind ./test
 clean:
-	rm -f ./test ./test0
+	rm -f ./test

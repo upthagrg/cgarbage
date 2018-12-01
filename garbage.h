@@ -33,6 +33,7 @@ struct garbage_handler{
 struct garbage_handler gh;
 int inited = 0;
 
+
 void _init_gh(){
 	int i=0;
 //	printf("in _init_gh\n");

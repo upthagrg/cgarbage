@@ -1,9 +1,10 @@
 /**************************************************
 Title: garbage_test.c
 Author: Glenn Upthagrove
-Date: 12/1/2018
+Date: 1/19/2022
 Description: Testing suite for the cgarbage system.
 **************************************************/
+
 #include "./garbage.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,7 +47,7 @@ int main(){
 		printf("-1: Utilities\n");
 		printf("0: Exit\n");
 		printf("1: General Test 1, allocates an array of integer pointers of a user defined size, then allocates one integer for each bucket and gives it a number. Uses gmalloc and gclear.\n");
-		printf("2: General Test 2, sets the initial capacity then runst general test 1\n");
+		printf("2: General Test 2, sets the initial capacity then runs General Test 1\n");
 		scanf("%d", &selection);
 		switch(selection){
 			case -1:
